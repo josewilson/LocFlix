@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+.DS_Store
+coverage/
+
+# Artefatos de compilação do tsc dentro de src (o build usa Vite; tsc roda com noEmit)
+src/**/*.js
+src/**/*.js.map
+

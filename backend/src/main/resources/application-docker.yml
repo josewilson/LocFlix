@@ -1,0 +1,33 @@
+# Profile ativado dentro do container Docker (SPRING_PROFILE=docker).
+# O banco NÃO é gerenciado por este projeto: o backend conecta a um PostgreSQL
+# externo (container já existente do usuário) através de host.docker.internal.
+# O banco "locflix" deve existir; o Flyway cria as tabelas automaticamente.
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://host.docker.internal:5432/locflix}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+logging:
+  level:
+    root: INFO
+    com.locflix: INFO
+    org.flywaydb: INFO
+
+springdoc:
+  swagger-ui:
+    enabled: true
+
+jwt:
+  secret: ${JWT_SECRET:docker-secret-change-me-docker-secret-change-me-docker-secret-change-me}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+app:
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:3000,http://127.0.0.1:3000}

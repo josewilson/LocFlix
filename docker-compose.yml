@@ -1,0 +1,74 @@
+# LOCFLIX — orquestração local (backend + frontend).
+#
+# O banco de dados NÃO é gerenciado aqui: o projeto usa um container PostgreSQL
+# já existente. Garanta que o banco "locflix" exista nele (crie via DBeaver) e
+# ajuste as credenciais no arquivo .env. O backend o alcança por host.docker.internal.
+#
+# Subir tudo:   docker compose up --build
+# Acessar:      frontend -> http://localhost:3000   |   API/Swagger -> http://localhost:8080
+
+services:
+  backend:
+    build:
+      context: ./backend
+    image: locflix-backend:latest
+    container_name: locflix-backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      SPRING_PROFILE: docker
+      DB_URL: ${DB_URL:-jdbc:postgresql://host.docker.internal:5432/locflix}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      JWT_SECRET: ${JWT_SECRET:-docker-secret-change-me-docker-secret-change-me-docker-secret-change-me}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
+      APP_CORS_ALLOWED_ORIGINS: ${APP_CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+      LOCFLIX_VIDEOS_PATH: /app/storage/videos
+      OMDB_API_KEY: ${OMDB_API_KEY:-}
+      ADMIN_ENABLED: ${ADMIN_ENABLED:-true}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      ADMIN_FIRST_NAME: ${ADMIN_FIRST_NAME:-Admin}
+      ADMIN_LAST_NAME: ${ADMIN_LAST_NAME:-Locflix}
+    ports:
+      - "8080:8080"
+    volumes:
+      # Persiste os vídeos enviados/processados fora do container
+      - ./storage:/app/storage
+    extra_hosts:
+      # Permite alcançar o PostgreSQL do host/outro container em Linux também
+      - "host.docker.internal:host-gateway"
+    networks:
+      - locflix-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  frontend:
+    build:
+      context: ./frontend
+    image: locflix-frontend:latest
+    container_name: locflix-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_started
+    ports:
+      - "3000:80"
+    networks:
+      - locflix-network
+    healthcheck:
+      # 127.0.0.1 (não "localhost") para evitar resolução IPv6 — o nginx escuta em IPv4
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:80/"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+networks:
+  locflix-network:
+    driver: bridge

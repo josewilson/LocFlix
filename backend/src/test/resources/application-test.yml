@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:locflix_test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: sa
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+  flyway:
+    enabled: false
+
+logging:
+  level:
+    root: WARN
+    com.locflix: INFO
+
+springdoc:
+  swagger-ui:
+    enabled: false
+
+jwt:
+  secret: test-secret-key-test-secret-key-test-secret-key
+  expiration: 86400000
+

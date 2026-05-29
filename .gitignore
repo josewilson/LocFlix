@@ -1,0 +1,34 @@
+# ===== LOCFLIX — .gitignore da raiz (monorepo) =====
+
+# Segredos e configuração local
+.env
+*.env
+!.env.example
+
+# Documentos internos de planejamento (não publicar)
+AGENTS/
+
+# Vídeos enviados/processados (HLS) — nunca versionar binários grandes
+storage/
+**/storage/videos/
+
+# Build do backend (Maven)
+backend/target/
+backend/logs/
+backend/*.log
+
+# Build do frontend (Node/Vite)
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+frontend/*.log
+
+# Logs gerais
+*.log
+
+# IDEs e SO
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

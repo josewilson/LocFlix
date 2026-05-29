@@ -818,6 +818,24 @@ input[type="checkbox"] {
   padding-top: 5.5rem;
 }
 
+/* Quando há hero full-bleed, ele já preenche o topo sob a navbar:
+   removemos o respiro e puxamos o card sobre o gradiente final do hero. */
+.app-shell--hero {
+  padding-top: 0;
+}
+
+.app-shell--hero .page-card {
+  margin-top: -5rem;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .app-shell--hero .page-card {
+    margin-top: -2.5rem;
+  }
+}
+
 /* Home */
 .home {
   width: 100%;

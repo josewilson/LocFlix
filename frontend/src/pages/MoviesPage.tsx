@@ -2,10 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { fetchMovies } from "../shared/api/moviesApi";
+import { fetchMovies, fetchPopularMovies } from "../shared/api/moviesApi";
 import { queryKeys } from "../shared/queries/queryKeys";
 import { useMovieActions } from "../shared/hooks/useMovieActions";
 import { PageLayout } from "../shared/components/PageLayout";
+import { HeroBanner } from "../shared/components/HeroBanner";
 import { MovieCard } from "../shared/components/MovieCard";
 import { FavoriteMovieAction } from "../shared/components/FavoriteMovieAction";
 import { RentMovieAction } from "../shared/components/RentMovieAction";
@@ -35,6 +36,14 @@ export function MoviesPage() {
     placeholderData: (previousData) => previousData
   });
 
+  // Filme em destaque para o hero (estável, independente dos filtros).
+  const featuredQuery = useQuery({
+    queryKey: queryKeys.movies.popular,
+    queryFn: () => fetchPopularMovies(0, 5),
+    staleTime: 60_000
+  });
+  const featured = featuredQuery.data?.content?.[0];
+
   const movies = data?.content ?? [];
   const totalPages = Math.max(data?.totalPages ?? 1, 1);
   const totalResults = data?.totalElements ?? movies.length;
@@ -61,6 +70,7 @@ export function MoviesPage() {
     <PageLayout
       title="Catalogo de filmes"
       description="Explore, filtre e alugue filmes com uma experiencia mais fluida e profissional."
+      hero={featured ? <HeroBanner movie={featured} actions={actions} /> : undefined}
     >
       <section className="card content-stack">
         <form className="toolbar" onSubmit={handleSearchSubmit}>

@@ -66,7 +66,28 @@ public class MovieImageBootstrap {
             Map.entry("Divertida Mente", "tt2096673"),
             Map.entry("O Rei Leão", "tt0110357"),
             Map.entry("Nosso Planeta", "tt9253866"),
-            Map.entry("O Dilema das Redes", "tt11464826")
+            Map.entry("O Dilema das Redes", "tt11464826"),
+            // Catálogo ampliado (V7)
+            Map.entry("Vingadores: Ultimato", "tt4154796"),
+            Map.entry("O Cavaleiro das Trevas", "tt0468569"),
+            Map.entry("O Poderoso Chefão", "tt0068646"),
+            Map.entry("Pulp Fiction: Tempo de Violência", "tt0110912"),
+            Map.entry("De Volta para o Futuro", "tt0088763"),
+            Map.entry("Jurassic Park: O Parque dos Dinossauros", "tt0107290"),
+            Map.entry("O Resgate do Soldado Ryan", "tt0120815"),
+            Map.entry("Coringa", "tt7286456"),
+            Map.entry("Parasita", "tt6751668"),
+            Map.entry("Bastardos Inglórios", "tt0361748"),
+            Map.entry("Whiplash: Em Busca da Perfeição", "tt2582802"),
+            Map.entry("O Grande Hotel Budapeste", "tt2278388"),
+            Map.entry("Corra!", "tt5052448"),
+            Map.entry("It: A Coisa", "tt1396484"),
+            Map.entry("Shrek", "tt0126029"),
+            Map.entry("WALL·E", "tt0910970"),
+            Map.entry("Toy Story 3", "tt0435761"),
+            Map.entry("Antes do Amanhecer", "tt0112471"),
+            Map.entry("A Marcha dos Pinguins", "tt0428803"),
+            Map.entry("O Senhor dos Anéis: O Retorno do Rei", "tt0167260")
     );
 
     @EventListener(ApplicationReadyEvent.class)

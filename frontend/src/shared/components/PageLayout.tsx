@@ -4,14 +4,17 @@ import { Navbar } from "./Navbar";
 interface PageLayoutProps {
   title: string;
   description?: string;
+  /** Banner full-bleed exibido logo abaixo da Navbar (ex.: HeroBanner). Opcional. */
+  hero?: ReactNode;
   children: ReactNode;
 }
 
-export function PageLayout({ title, description, children }: PageLayoutProps) {
+export function PageLayout({ title, description, hero, children }: PageLayoutProps) {
   return (
     <>
       <Navbar />
-      <main className="app-shell">
+      {hero}
+      <main className={hero ? "app-shell app-shell--hero" : "app-shell"}>
         <section className="page-card">
           <header className="page-header">
             <div>
